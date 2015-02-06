@@ -17,7 +17,7 @@ else
 end
 
 -- the hammer for the anvil
-minetest.register_tool("cottages:hammer", {
+minetest.register_tool("anvil:hammer", {
         description = S("Steel hammer for repairing tools on the anvil"),
         image           = "glooptest_tool_steelhammer.png",
         inventory_image = "glooptest_tool_steelhammer.png",
@@ -35,7 +35,7 @@ minetest.register_tool("cottages:hammer", {
 
 
 
-minetest.register_node("cottages:anvil", {
+minetest.register_node("anvil:anvil", {
 	drawtype = "nodebox",
 	description = S("anvil"),
 	tiles = {"default_stone.png"}, -- TODO default_steel_block.png,  default_obsidian.png are also nice
@@ -129,7 +129,7 @@ minetest.register_node("cottages:anvil", {
                 if( player and player:get_player_name() ~= meta:get_string('owner' )) then
                         return 0;
 		end
-		if( listname=='hammer' and stack and stack:get_name() ~= 'cottages:hammer') then
+		if( listname=='hammer' and stack and stack:get_name() ~= 'anvil:hammer') then
 			return 0;
 		end
 		if(   listname=='input'
@@ -159,7 +159,7 @@ minetest.register_node("cottages:anvil", {
 		end
 		-- only punching with the hammer is supposed to work
 		local wielded = puncher:get_wielded_item();
-		if( not( wielded ) or not( wielded:get_name() ) or wielded:get_name() ~= 'cottages:hammer') then
+		if( not( wielded ) or not( wielded:get_name() ) or wielded:get_name() ~= 'anvil:hammer') then
  			return;
 		end
 		local name = puncher:get_player_name();
@@ -207,7 +207,7 @@ minetest.register_node("cottages:anvil", {
 -- crafting receipes
 ---------------------------------------------------------------------------------------
 minetest.register_craft({
-	output = "cottages:anvil",
+	output = "anvil:anvil",
 	recipe = {
                 {'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
                 {'',                   'default:steel_ingot',''                   },
@@ -219,7 +219,7 @@ minetest.register_craft({
 if ( minetest.get_modpath("castle") ~= nil ) then
 
   minetest.register_craft({
-	output = "cottages:anvil",
+	output = "anvil:anvil",
 	recipe = {
 		 {'castle:anvil'},
 		},
@@ -228,15 +228,18 @@ if ( minetest.get_modpath("castle") ~= nil ) then
   minetest.register_craft({
 	output = "castle:anvil",
 	recipe = {
-		 {'cottages:anvil'},
+		 {'anvil:anvil'},
 		},
   }) 
 end
 
+--legacy and compatibility with other mod
+minetest.register_alias("cottages:anvil","anvil:anvil")
+minetest.register_alias("cottages:hammer","anvil:hammer")
 
 
 minetest.register_craft({
-	output = "cottages:hammer",
+	output = "anvil:hammer",
 	recipe = {
                 {'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
                 {'default:steel_ingot','default:steel_ingot','default:steel_ingot'},
