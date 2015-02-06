@@ -69,7 +69,6 @@ minetest.register_node("anvil:anvil", {
                	inv:set_size("input",    1);
 --               	inv:set_size("material", 9);
 --               	inv:set_size("sample",   1);
-               	inv:set_size("hammer",   1);
        	end,
 
 	after_place_node = function(pos, placer)
@@ -82,17 +81,13 @@ minetest.register_node("anvil:anvil", {
 --                                "list[current_name;sample;0,0.5;1,1;]"..
                                 "list[current_name;input;2.5,1.5;1,1;]"..
 --                                "list[current_name;material;5,0;3,3;]"..
-                                "list[current_name;hammer;5,3;1,1;]"..
 --					"label[0.0,0.0;Sample:]"..
 --					"label[0.0,1.0;(Receipe)]"..
 					"label[2.5,1.0;"..S("Workpiece:").."]"..
 --					"label[6.0,-0.5;Materials:]"..
-					"label[6.0,2.7;"..S("Optional").."]"..
-					"label[6.0,3.0;"..S("storage for").."]"..
-					"label[6.0,3.3;"..S("your hammer").."]"..
 
-					"label[0,-0.5;"..S("Anvil").."]"..
-					"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]"..
+					"label[0,0;"..S("Anvil").."]"..
+					"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]"..
 					"label[0,3.0;"..S("Punch anvil with hammer to").."]"..
 					"label[0,3.3;"..S("repair tool in workpiece-slot.").."]"..
                                 "list[current_player;main;0,4;8,4;]");
@@ -107,11 +102,15 @@ minetest.register_node("anvil:anvil", {
                 if(  not( inv:is_empty("input"))
 --		  or not( inv:is_empty("material"))
 --		  or not( inv:is_empty("sample"))
-		  or not( inv:is_empty("hammer"))
 		  or not( player )
 		  or ( owner and owner ~= ''  and player:get_player_name() ~= owner )) then
 
 		   return false;
+		end
+		if not inv:is_empty("hammer") then
+			for _, stack in pairs(inv:get_list("hammer")) do
+				minetest.item_drop(stack, "", pos)
+			end
 		end
                 return true;
         end,
