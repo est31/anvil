@@ -75,22 +75,15 @@ minetest.register_node("anvil:anvil", {
 		local meta = minetest.get_meta(pos);
 		meta:set_string("owner", placer:get_player_name() or "");
 		meta:set_string("infotext", S("Anvil (owned by %s)"):format((meta:get_string("owner") or "")));
-                meta:set_string("formspec",
-                               "size[8,8]"..
-				"image[7,3;1,1;glooptest_tool_steelhammer.png]"..
---                                "list[current_name;sample;0,0.5;1,1;]"..
-                                "list[current_name;input;2.5,1.5;1,1;]"..
---                                "list[current_name;material;5,0;3,3;]"..
---					"label[0.0,0.0;Sample:]"..
---					"label[0.0,1.0;(Receipe)]"..
-					"label[2.5,1.0;"..S("Workpiece:").."]"..
---					"label[6.0,-0.5;Materials:]"..
-
-					"label[0,0;"..S("Anvil").."]"..
-					"label[2.5,0;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]"..
-					"label[0,3.0;"..S("Punch anvil with hammer to").."]"..
-					"label[0,3.3;"..S("repair tool in workpiece-slot.").."]"..
-                                "list[current_player;main;0,4;8,4;]");
+		meta:set_string("formspec",
+			"size[8,6]"..
+			--"image[7,3;1,1;glooptest_tool_steelhammer.png]"..
+			"list[context;input;3.5,0.5;1,1;]"..
+			"label[0,0.7;"..S("Insert damaged tool here:").."]"..
+			"label[0,0;"..S("Anvil, owned by %s"):format(meta:get_string('owner') or "").."]"..
+			--"label[0,3.0;"..S("Punch anvil with hammer to").."]"..
+			--"label[0,3.3;"..S("repair tool in workpiece-slot.").."]"..
+			"list[current_player;main;0,2;8,4;]");
         end,
 
         can_dig = function(pos,player)
