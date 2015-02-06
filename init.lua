@@ -132,10 +132,7 @@ minetest.register_node("anvil:anvil", {
 		if( listname=='hammer' and stack and stack:get_name() ~= 'anvil:hammer') then
 			return 0;
 		end
-		if(   listname=='input'
-		 and( stack:get_wear() == 0
-                   or stack:get_name() == "technic:water_can" 
-                   or stack:get_name() == "technic:lava_can" )) then
+		if( listname=='input' and stack:get_wear() == 0 ) then
 
 			minetest.chat_send_player( player:get_player_name(),
 				S('The workpiece slot is for damaged tools only.'));
@@ -170,11 +167,14 @@ minetest.register_node("anvil:anvil", {
 		local input = inv:get_stack('input',1);
 
 		-- only tools can be repaired
-		if( not( input ) 
-		   or input:is_empty()
-                   or input:get_name() == "technic:water_can" 
-                   or input:get_name() == "technic:lava_can" ) then
+		if( not( input ) or input:is_empty() ) then
 			return;
+		end
+
+		local inputdef = minetest.registered_items[input:get_name()]
+		local mechanical = not inputdef.wear_represents or inputdef.wear_represents == "mechanical_wear"
+		if not mechanical then
+			return
 		end
 
 		-- tell the player when the job is done
