@@ -9,10 +9,11 @@
 
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S
-if intllib then
-	S = intllib.Getter()
+if (minetest.get_modpath("intllib")) then
+  dofile(minetest.get_modpath("intllib").."/intllib.lua")
+  S = intllib.Getter(minetest.get_current_modname())
 else
-	S = function(s) return s end
+  S = function(s,a,...)if a==nil then return s end a={a,...}return s:gsub("(@?)@(%(?)(%d+)(%)?)",function(e,o,n,c)if e==""then return a[tonumber(n)]..(o==""and c or"")else return"@"..o..n..c end end) end
 end
 
 -- the hammer for the anvil
